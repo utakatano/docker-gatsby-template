@@ -1,6 +1,7 @@
-FROM node:15.14.0-alpine3.10
+FROM node:15.14.0-buster-slim
 
-WORKDIR /app/hello-world
+WORKDIR /app
 
-RUN apk update && \
-    apk add git
+RUN apt-get update && \
+    apt-get install -y git && \
+    npm install -g gatsby-cli

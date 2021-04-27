@@ -10,48 +10,52 @@ We don't need to install Node.js in our local machine.
 
 ## How to run local development
 
-You can only run the following command and see `http://localhost:8080` in the browser after build is done.
+You can only run the following commands and see `http://localhost:8080` in your browser after build is done.
 
 ```sh
 % docker-compose up -d --build
 
-# run this command when you want to see build log
-% docker-compose logs -f
+% docker-compose exec develop bash
+
+# in the container
+/app $ cd hello-world
+/app/hello-world $ npm install # if node_modules does not exist
+/app/hello-world $ npm run develop # it can be `npm start`
 ```
 
 ## How to create new Gatsby site
 
-1. When you want to create Gatsby site, please comment out `command` in docker-compose.yml temporally then run `docker-compose up` command in terminal.
-
-```yml
-services:
-  develop:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    # command: npm run develop
-```
+1. When you want to create another Gatsby site, please run `docker-compose up` command in terminal.
 
 ```sh
 % docker-compose up -d --build
 ```
 
-2. Then, run this command by attaching the image.
+2. Then, run this command by attaching the container.
 
 ```sh
-% docker-compose exec develop ash
+% docker-compose exec develop bash
 ```
 
-3. You can use `node` and `npm` commands because the docker image is based on node image. So you can create new site with `npx` and `gatsby` commands.
+3. You can use `node` and `npm` commands because the docker image is based on node image. So you can create new site with `gatsby` commands.
 
 ```sh
-# move to /app directory
-/app/hello-world $ cd ..
-
-/app $ npx gatsby new {site_name} https://github.com/gatsbyjs/gatsby-starter-hello-world
+/app $ gatsby new {site_name} https://github.com/gatsbyjs/gatsby-starter-hello-world
 ```
 
-4. Please update following files.
+4. Add `--host=0.0.0.0` parameter in `npm run develop` command in your new site.
+
+```json
+"scripts": {
+  "develop": "gatsby develop --host=0.0.0.0",
+}
+```
+
+5. You can see the result in `http://localhost:8080` with `npm run develop` or `npm start` command.
+
+## How to start 'npm run develop' after docker build
+
+1. Please update following files.
 
 - Dockerfile  
 change directory to your site in `WORKDIR` (L-3)
@@ -61,7 +65,7 @@ WORKDIR /app/{site_name}
 ```
 
 - docker-compose.yml
-uncommment `command` commented out in the step 1
+add `command` field and set `npm run develop` or `npm start`
 
 ```yml
 services:
@@ -72,11 +76,11 @@ services:
     command: npm run develop
 ```
 
-- package.json  
-add `--host=0.0.0.0` parameter in `npm run develop` command in your new site
+2. Run belo `docker-compose up` command, then you can see `http://localhost:8080` in your browser after build is done.
 
-```json
-"scripts": {
-  "develop": "gatsby develop --host=0.0.0.0",
-}
+```sh
+% docker-compose up -d --build
+
+# when you want to see the progress of the build
+% docker-compose logs -f
 ```
