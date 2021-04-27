@@ -5,7 +5,7 @@ We don't need to install Node.js in our local machine.
 
 ## Environment
 
-- Node.jS ... 15.14.0
+- Node.jS ... 16.0.0
 - Gatsbyjs ... 3.3.1
 
 ## How to run local development
