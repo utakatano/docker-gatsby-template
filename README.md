@@ -5,8 +5,8 @@ We don't need to install Node.js in our local machine.
 
 ## Environment
 
-- Node.jS ... 16.0.0
-- Gatsbyjs ... 3.3.1
+- Node.js ... 16.0.0
+- [Gatsbyjs](https://www.gatsbyjs.com/) ... 3.3.1
 
 ## How to run local development
 
@@ -51,7 +51,7 @@ You can only run the following commands and see `http://localhost:8080` in your 
 }
 ```
 
-5. You can see the result in `http://localhost:8080` with `npm run develop` or `npm start` command.
+5. You can see the result in `http://localhost:8080` with `npm run develop` or `npm start` command after node_modules added by running `npm install`.
 
 ## How to start 'npm run develop' after docker build
 
